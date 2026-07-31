@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-sora), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+}
+
+:root {
+  --bg-base: #f6f5fb;
+  --text-primary: #191a2e;
+  --text-secondary: #5b5f78;
+  --text-tertiary: #8b8fa8;
+  --aurora-violet: #7c6ff0;
+  --aurora-teal: #14b8a6;
+  --aurora-rose: #f4527d;
+  --aurora-amber: #f59e0b;
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-border-hover: rgba(124, 111, 240, 0.55);
+
+  /* Theme-agnostic tokens — swapped per-theme below so components
+     (.glass, .glass-input) never need theme-specific overrides themselves. */
+  --glass-bg-from: rgba(255, 255, 255, 0.75);
+  --glass-bg-to: rgba(255, 255, 255, 0.45);
+  --glass-shadow: 0 8px 30px rgba(90, 90, 140, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --glass-shadow-hover: 0 14px 40px rgba(90, 90, 140, 0.16), 0 0 40px rgba(124, 111, 240, 0.12);
+  --glass-input-bg: rgba(255, 255, 255, 0.55);
+  --glass-input-bg-focus: rgba(255, 255, 255, 0.75);
+  --glass-input-border: rgba(25, 26, 46, 0.1);
+  --aurora-glow-1: rgba(124, 111, 240, 0.28);
+  --aurora-glow-2: rgba(20, 184, 166, 0.24);
+  --aurora-glow-3: rgba(244, 82, 125, 0.18);
+  --grain-color: rgba(25, 26, 46, 0.5);
+  --grain-opacity: 0.025;
+
+  /* Task-card and popover surfaces — previously hardcoded as bg-white/70
+     etc. directly in components, which is what broke dark mode. */
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-bg-hover: rgba(255, 255, 255, 0.92);
+  --card-border: rgba(0, 0, 0, 0.05);
+  --popover-bg: #ffffff;
+  --popover-border: rgba(0, 0, 0, 0.1);
+  --popover-hover: rgba(0, 0, 0, 0.04);
+  --chip-bg: rgba(255, 255, 255, 0.7);
+  --chip-hover: #ffffff;
+}
+
+/* Dark aurora — same accent hues, brightened slightly for contrast on a
+   dark base, paired with a dark glass surface instead of white glass. */
+[data-theme='dark'] {
+  --bg-base: #12121f;
+  --text-primary: #f2f1fb;
+  --text-secondary: #a9adc4;
+  --text-tertiary: #6e7290;
+  --aurora-violet: #9b90ff;
+  --aurora-teal: #2dd4bf;
+  --aurora-rose: #fb6d94;
+  --aurora-amber: #fbbf24;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(155, 144, 255, 0.5);
+
+  --glass-bg-from: rgba(255, 255, 255, 0.06);
+  --glass-bg-to: rgba(255, 255, 255, 0.02);
+  --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --glass-shadow-hover: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 40px rgba(155, 144, 255, 0.15);
+  --glass-input-bg: rgba(255, 255, 255, 0.04);
+  --glass-input-bg-focus: rgba(255, 255, 255, 0.07);
+  --glass-input-border: rgba(255, 255, 255, 0.12);
+  --aurora-glow-1: rgba(155, 144, 255, 0.22);
+  --aurora-glow-2: rgba(45, 212, 191, 0.18);
+  --aurora-glow-3: rgba(251, 109, 148, 0.14);
+  --grain-color: rgba(255, 255, 255, 0.6);
+  --grain-opacity: 0.03;
+
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-bg-hover: rgba(255, 255, 255, 0.09);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --popover-bg: #1c1d30;
+  --popover-border: rgba(255, 255, 255, 0.1);
+  --popover-hover: rgba(255, 255, 255, 0.06);
+  --chip-bg: rgba(255, 255, 255, 0.05);
+  --chip-hover: rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth transition when the theme toggle flips, instead of a hard cut. */
+html {
+  transition: background-color 0.25s ease;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  position: relative;
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 12% 15%, var(--aurora-glow-1), transparent 42%),
+    radial-gradient(circle at 88% 12%, var(--aurora-glow-2), transparent 46%),
+    radial-gradient(circle at 55% 95%, var(--aurora-glow-3), transparent 42%);
+  filter: blur(70px);
+  animation: drift 26s ease-in-out infinite alternate;
+  z-index: -2;
+  pointer-events: none;
+  transition: background 0.25s ease;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(var(--grain-color) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+  opacity: var(--grain-opacity);
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-4%, 5%) scale(1.1);
+  }
+}
+
+.glass {
+  background: linear-gradient(135deg, var(--glass-bg-from), var(--glass-bg-to));
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--glass-shadow);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease, background 0.25s ease;
+}
+
+.glass:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-hover);
+}
+
+.glass-input {
+  background: var(--glass-input-bg);
+  border: 1px solid var(--glass-input-border);
+  color: var(--text-primary);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.glass-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: var(--aurora-violet);
+  background: var(--glass-input-bg-focus);
+  box-shadow: 0 0 0 3px rgba(124, 111, 240, 0.15);
+}

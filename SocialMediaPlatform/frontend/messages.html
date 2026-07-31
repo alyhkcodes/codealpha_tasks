@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FUSE - Messages</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <span class="logo">FU<span class="fuse-accent">S</span>E<span class="fuse-dot"></span></span>
+    <div class="navbar-search">
+      <input type="text" id="searchInput" placeholder="Search users...">
+      <div class="search-results hidden" id="searchResults"></div>
+    </div>
+    <div class="nav-links">
+      <a href="feed.html" title="Home"></a>
+      <a href="messages.html" title="Messages" class="active" id="messagesLink"></a>
+      <a href="#" id="myProfileLink" title="My Profile"></a>
+      <button id="logoutBtn" title="Logout"></button>
+    </div>
+  </nav>
+
+  <div class="feed-container messages-page">
+    <!-- Inbox list view -->
+    <div id="inboxView">
+      <h2 class="messages-heading">Messages</h2>
+      <div id="conversationsList"></div>
+    </div>
+
+    <!-- Single conversation view -->
+    <div id="conversationView" class="hidden">
+      <div class="conversation-header">
+        <button id="backToInboxBtn" class="back-btn">← Back</button>
+        <div id="conversationPartner"></div>
+      </div>
+      <div id="messagesList" class="messages-list"></div>
+      <form id="messageForm" class="message-form">
+        <input type="text" id="messageInput" placeholder="Type a message..." required autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="feed.html" title="Home"></a>
+    <a href="messages.html" title="Messages" class="active" id="messagesLinkMobile"></a>
+    <button id="composeShortcut" title="New post"></button>
+    <a href="#" id="myProfileLinkMobile" title="Profile"></a>
+    <button id="logoutBtnMobile" title="Logout"></button>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/ui-helpers.js"></script>
+  <script src="js/messages.js"></script>
+</body>
+</html>
