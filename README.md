@@ -10,7 +10,7 @@ Internship tasks completed for CodeAlpha's Full Stack Development program.
 
 A Trello/Asana-style collaborative tool with auth, project boards, task cards, and comments.
 
-🔗 https://github.com/alyhkcodes/CodeAlpha\_ProjectManagementTool
+🔗 [https://github.com/alyhkcodes/CodeAlpha\_ProjectManagementTool](https://github.com/alyhkcodes/CodeAlpha_ProjectManagementTool)
 
 
 
